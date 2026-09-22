@@ -102,6 +102,99 @@ public class CursoControllerTests {
     }
 
     @Test
+    public void test_shouldNotListarCursosDeletados() throws Exception {
+        // Criar um curso
+        CursoDto dto = new CursoDto();
+        dto.setNome("Física");
+        dto.setTipo(TipoCurso.GRADUACAO);
+        dto.setValor(3000.0);
+        dto.setDescricao("Curso de Física");
+        dto.setProfessor("Dr. Einstein");
+
+        MvcResult createResult = mockMvc.perform(post("/api/cursos")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        Curso cursoCriado = objectMapper.readValue(
+                createResult.getResponse().getContentAsString(),
+                Curso.class);
+
+        // Deletar o curso
+        mockMvc.perform(delete("/api/cursos/{id}", cursoCriado.getId()))
+                .andExpect(status().isNoContent());
+
+        // Listar cursos e verificar que o deletado não aparece
+        MvcResult listResult = mockMvc.perform(get("/api/cursos"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Curso[] cursos = objectMapper.readValue(
+                listResult.getResponse().getContentAsString(),
+                Curso[].class);
+
+        for (Curso c : cursos) {
+            Assertions.assertNotEquals(cursoCriado.getId(), c.getId());
+        }
+    }
+
+    @Test
+    public void test_shouldFilterCursosByNome() throws Exception {
+        // Criar cursos com nomes diferentes
+        CursoDto dto1 = new CursoDto();
+        dto1.setNome("Engenharia Civil");
+        dto1.setTipo(TipoCurso.GRADUACAO);
+        dto1.setValor(2500.0);
+        dto1.setDescricao("Curso de Engenharia Civil");
+        dto1.setProfessor("Prof. João");
+
+        CursoDto dto2 = new CursoDto();
+        dto2.setNome("Engenharia Mecânica");
+        dto2.setTipo(TipoCurso.GRADUACAO);
+        dto2.setValor(2600.0);
+        dto2.setDescricao("Curso de Engenharia Mecânica");
+        dto2.setProfessor("Prof. Maria");
+
+        CursoDto dto3 = new CursoDto();
+        dto3.setNome("Medicina Veterinária");
+        dto3.setTipo(TipoCurso.GRADUACAO);
+        dto3.setValor(4000.0);
+        dto3.setDescricao("Curso de Medicina Veterinária");
+        dto3.setProfessor("Dra. Ana");
+
+        mockMvc.perform(post("/api/cursos")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(dto1)))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(post("/api/cursos")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(dto2)))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(post("/api/cursos")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(dto3)))
+                .andExpect(status().isCreated());
+
+        // Filtrar por "Engenharia"
+        MvcResult result = mockMvc.perform(get("/api/cursos?nome=Engenharia"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Curso[] cursos = objectMapper.readValue(
+                result.getResponse().getContentAsString(),
+                Curso[].class);
+
+        // Verifica que retornou cursos que começam com "Engenharia"
+        Assertions.assertTrue(cursos.length >= 2);
+        for (Curso c : cursos) {
+            Assertions.assertTrue(c.getNome().startsWith("Engenharia"));
+        }
+    }
+
+    @Test
     public void test_shouldReturnCursoQuandoObterCursoExistente() throws Exception {
         // Preparação: Criar um curso
         CursoDto dto = new CursoDto();
@@ -169,6 +262,17 @@ public class CursoControllerTests {
 
         mockMvc.perform(delete("/api/cursos/{id}", curso.getId()))
                 .andExpect(status().isNoContent());
+
+        // Verifica que o curso foi logicamente deletado, não fisicamente removido
+        MvcResult getResult = mockMvc.perform(get("/api/cursos/{id}", curso.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Curso cursoDepois = objectMapper.readValue(
+                getResult.getResponse().getContentAsString(),
+                Curso.class);
+
+        Assertions.assertTrue(cursoDepois.getDeletado());
     }
 
     @Test

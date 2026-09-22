@@ -45,7 +45,11 @@ public class CursoService implements CursoObservable {
     }
 
     public List<Curso> listarTodos() {
-        return cursoRepository.findAll();
+        return cursoRepository.findByDeletadoFalse();
+    }
+
+    public List<Curso> listarPorNome(String nome) {
+        return cursoRepository.findByDeletadoFalseAndNomeStartingWith(nome);
     }
 
     public Optional<Curso> obterPorId(Long id) {
@@ -53,8 +57,11 @@ public class CursoService implements CursoObservable {
     }
 
     public boolean deletar(Long id) {
-        if (cursoRepository.existsById(id)) {
-            cursoRepository.deleteById(id);
+        Optional<Curso> cursoOpt = cursoRepository.findById(id);
+        if (cursoOpt.isPresent()) {
+            Curso curso = cursoOpt.get();
+            curso.setDeletado(true);
+            cursoRepository.save(curso);
             return true;
         }
         return false;

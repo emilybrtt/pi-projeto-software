@@ -128,7 +128,7 @@ public class CursoServiceTests {
         cursos.add(new Curso());
 
         // cria os mocks
-        Mockito.when(cursoRepository.findAll())
+        Mockito.when(cursoRepository.findByDeletadoFalse())
                 .thenReturn(cursos);
 
         // chama o metodo testado
@@ -167,30 +167,42 @@ public class CursoServiceTests {
     @Test
     public void test_shouldReturnTrueWhenDeletarExistingCurso() {
         // mocks
-        Mockito.when(cursoRepository.existsById(1L))
-                .thenReturn(true);
+        CursoDto dto = new CursoDto();
+        dto.setNome("Engenharia de Software");
+        dto.setTipo(TipoCurso.GRADUACAO);
+        dto.setValor(1000.0);
+        dto.setDescricao("Curso de graduação");
+        dto.setProfessor("Fulano");
+
+        Curso curso = Curso.fromDto(dto);
+
+        Mockito.when(cursoRepository.findById(1L))
+                .thenReturn(Optional.of(curso));
+        Mockito.when(cursoRepository.save(Mockito.any()))
+                .thenReturn(curso);
 
         // chamada
         boolean response = cursoService.deletar(1L);
 
         // asserts
         Assertions.assertTrue(response);
-        Mockito.verify(cursoRepository, Mockito.times(1)).deleteById(1L);
+        Mockito.verify(cursoRepository, Mockito.times(1)).save(Mockito.any());
+        Assertions.assertTrue(curso.getDeletado());
     }
 
 
     @Test
     public void test_shouldReturnFalseWhenDeletarNonExistingCurso() {
         // mocks
-        Mockito.when(cursoRepository.existsById(1L))
-                .thenReturn(false);
+        Mockito.when(cursoRepository.findById(1L))
+                .thenReturn(Optional.empty());
 
         // chamada
         boolean response = cursoService.deletar(1L);
 
         // asserts
         Assertions.assertFalse(response);
-        Mockito.verify(cursoRepository, Mockito.times(0)).deleteById(Mockito.any());
+        Mockito.verify(cursoRepository, Mockito.times(0)).save(Mockito.any());
     }
 
     @Test

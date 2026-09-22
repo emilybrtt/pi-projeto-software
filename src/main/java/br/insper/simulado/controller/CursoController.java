@@ -26,8 +26,13 @@ public class CursoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Curso>> listar() {
-        List<Curso> cursos = cursoService.listarTodos();
+    public ResponseEntity<List<Curso>> listar(@RequestParam(required = false) String nome) {
+        List<Curso> cursos;
+        if (nome != null && !nome.isEmpty()) {
+            cursos = cursoService.listarPorNome(nome);
+        } else {
+            cursos = cursoService.listarTodos();
+        }
         return ResponseEntity.ok(cursos);
     }
 
