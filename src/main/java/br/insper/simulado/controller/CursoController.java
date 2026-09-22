@@ -34,10 +34,7 @@ public class CursoController {
     @GetMapping("/{id}")
     public ResponseEntity<Curso> obter(@PathVariable Long id) {
         Optional<Curso> curso = cursoService.obterPorId(id);
-        if (curso.isPresent()) {
-            return ResponseEntity.ok(curso.get());
-        }
-        return ResponseEntity.notFound().build();
+        return curso.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
@@ -54,7 +51,7 @@ public class CursoController {
         boolean sucesso = cursoService.processar(id);
         RespostaCursoDto resposta = new RespostaCursoDto(
                 sucesso,
-                sucesso ? "Curso processado com sucesso" : "Erro ao processar curso"
+                sucesso ? "Curso processado com sucesso" : "Erro ao processar o curso"
         );
         return ResponseEntity.ok(resposta);
     }
