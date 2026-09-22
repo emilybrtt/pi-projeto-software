@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProcessadorMba.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report"></a> &gt; <a href="index.source.html" class="el_package">br.insper.simulado.processor</a> &gt; <span class="el_source">ProcessadorMba.java</span></div><h1>ProcessadorMba.java</h1><pre class="source lang-java linenums">package br.insper.simulado.processor;
+
+import br.insper.simulado.entity.Curso;
+import org.springframework.stereotype.Service;
+
+@Service(&quot;MBA&quot;)
+<span class="fc" id="L7">public class ProcessadorMba implements Processador {</span>
+
+    @Override
+    public boolean processar(Curso curso) {
+        try {
+<span class="nc" id="L12">            System.out.println(&quot;Processando curso de MBA...&quot;);</span>
+<span class="nc" id="L13">            System.out.println(&quot;Nome: &quot; + curso.getNome());</span>
+<span class="nc" id="L14">            System.out.println(&quot;Professor: &quot; + curso.getProfessor());</span>
+<span class="nc" id="L15">            System.out.println(&quot;Valor: &quot; + curso.getValor());</span>
+
+<span class="nc" id="L17">            verificarCurso(curso);</span>
+
+<span class="nc" id="L19">            System.out.println(&quot;Curso de MBA processado com sucesso!&quot;);</span>
+<span class="nc" id="L20">            return true;</span>
+
+<span class="nc" id="L22">        } catch (Exception e) {</span>
+<span class="nc" id="L23">            System.out.println(&quot;Erro ao processar curso: &quot; + e.getMessage());</span>
+<span class="nc" id="L24">            return false;</span>
+        }
+    }
+
+    private void verificarCurso(Curso curso) {
+<span class="nc" id="L29">        System.out.println(&quot;Verificando informações do curso...&quot;);</span>
+<span class="nc" id="L30">        System.out.println(&quot;Descrição: &quot; + curso.getDescricao());</span>
+<span class="nc" id="L31">        System.out.println(&quot;Curso verificado!&quot;);</span>
+<span class="nc" id="L32">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>
