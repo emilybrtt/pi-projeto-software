@@ -1,4 +1,4 @@
-package br.insper.simulado;
+package br.insper.simulado.controller;
 
 import br.insper.simulado.dto.CursoDto;
 import br.insper.simulado.entity.Curso;
@@ -53,11 +53,10 @@ public class CursoControllerTests {
         dto.setNome("Engenharia de Software");
         dto.setTipo(TipoCurso.GRADUACAO);
         dto.setValor(1000.0);
-        dto.setDescricao("Curso de graduação em Engenharia de Software");
+        dto.setDescricao("Curso de Graduação em Engenharia de Software");
         dto.setProfessor("Fulano de Tal");
 
         // chamada
-
         MvcResult result = mockMvc.perform(
                         post("/api/cursos")
                                 .contentType("application/json")
@@ -66,7 +65,6 @@ public class CursoControllerTests {
                 .andReturn();
 
         // asserts
-
         Curso curso = objectMapper.readValue(
                 result.getResponse().getContentAsString(),
                 Curso.class);
@@ -74,28 +72,83 @@ public class CursoControllerTests {
         Assertions.assertEquals(TipoCurso.GRADUACAO, curso.getTipo());
         Assertions.assertEquals("Engenharia de Software", curso.getNome());
         Assertions.assertFalse(curso.getDeletado());
+    }
 
+    @Test
+    public void test_shouldListarTodosOsCursos() throws Exception {
+        // Criar um curso primeiro para garantir que a lista não vem vazia
+        CursoDto dto = new CursoDto();
+        dto.setNome("Medicina");
+        dto.setTipo(TipoCurso.GRADUACAO);
+        dto.setValor(5000.0);
+        dto.setDescricao("Curso de graduação em Medicina");
+        dto.setProfessor("Dra. Silvia");
+
+        mockMvc.perform(post("/api/cursos")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated());
+
+        // Testar a listagem
+        MvcResult result = mockMvc.perform(get("/api/cursos"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Curso[] cursos = objectMapper.readValue(
+                result.getResponse().getContentAsString(),
+                Curso[].class);
+
+        Assertions.assertTrue(cursos.length > 0);
+    }
+
+    @Test
+    public void test_shouldReturnCursoQuandoObterCursoExistente() throws Exception {
+        // Preparação: Criar um curso
+        CursoDto dto = new CursoDto();
+        dto.setNome("Arquitetura");
+        dto.setTipo(TipoCurso.GRADUACAO);
+        dto.setValor(1200.0);
+        dto.setDescricao("Curso de Arquitetura");
+        dto.setProfessor("Maria");
+
+        MvcResult postResult = mockMvc.perform(post("/api/cursos")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        Curso cursoCriado = objectMapper.readValue(
+                postResult.getResponse().getContentAsString(),
+                Curso.class);
+
+        // Ação: Obter o curso pelo ID gerado
+        MvcResult getResult = mockMvc.perform(get("/api/cursos/{id}", cursoCriado.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Curso cursoObtido = objectMapper.readValue(
+                getResult.getResponse().getContentAsString(),
+                Curso.class);
+
+        // Validação
+        Assertions.assertEquals(cursoCriado.getId(), cursoObtido.getId());
+        Assertions.assertEquals("Arquitetura", cursoObtido.getNome());
     }
 
     @Test
     public void test_shouldReturnNotFoundWhenObterCursoInexistente() throws Exception {
-
-        mockMvc.perform(
-                        get("/api/cursos/{id}", 99999L))
+        mockMvc.perform(get("/api/cursos/{id}", 99999L))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void test_shouldReturnNotFoundWhenDeletarCursoInexistente() throws Exception {
-
-        mockMvc.perform(
-                        delete("/api/cursos/{id}", 99999L))
+        mockMvc.perform(delete("/api/cursos/{id}", 99999L))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     public void test_shouldReturnNoContentWhenDeletarCursoExistente() throws Exception {
-
         CursoDto dto = new CursoDto();
         dto.setNome("Ciência da Computação");
         dto.setTipo(TipoCurso.MBA);
@@ -114,8 +167,32 @@ public class CursoControllerTests {
                 result.getResponse().getContentAsString(),
                 Curso.class);
 
-        mockMvc.perform(
-                        delete("/api/cursos/{id}", curso.getId()))
+        mockMvc.perform(delete("/api/cursos/{id}", curso.getId()))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void test_shouldProcessarCursoExistente() throws Exception {
+        // Preparação
+        CursoDto dto = new CursoDto();
+        dto.setNome("Direito");
+        dto.setTipo(TipoCurso.GRADUACAO);
+        dto.setValor(2000.0);
+        dto.setDescricao("Curso de Direito");
+        dto.setProfessor("Pedro");
+
+        MvcResult postResult = mockMvc.perform(post("/api/cursos")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        Curso cursoCriado = objectMapper.readValue(
+                postResult.getResponse().getContentAsString(),
+                Curso.class);
+
+        // Ação e Validação do endpoint de processamento
+        mockMvc.perform(post("/api/cursos/{id}/processar", cursoCriado.getId()))
+                .andExpect(status().isOk());
     }
 }

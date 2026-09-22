@@ -1,11 +1,10 @@
-package br.insper.simulado;
+package br.insper.simulado.service;
 
 import br.insper.simulado.dto.CursoDto;
 import br.insper.simulado.entity.Curso;
 import br.insper.simulado.entity.TipoCurso;
 import br.insper.simulado.processor.Processador;
 import br.insper.simulado.repository.CursoRepository;
-import br.insper.simulado.service.CursoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
