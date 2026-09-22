@@ -9,16 +9,16 @@ import org.springframework.stereotype.Service;
     @Override
     public boolean processar(Curso curso) {
         try {
-<span class="nc" id="L12">            System.out.println(&quot;Processando curso de Graduação...&quot;);</span>
-<span class="nc" id="L13">            System.out.println(&quot;Nome: &quot; + curso.getNome());</span>
-<span class="nc" id="L14">            System.out.println(&quot;Professor: &quot; + curso.getProfessor());</span>
-<span class="nc" id="L15">            System.out.println(&quot;Valor: &quot; + curso.getValor());</span>
+<span class="fc" id="L12">            System.out.println(&quot;Processando curso de Graduação...&quot;);</span>
+<span class="fc" id="L13">            System.out.println(&quot;Nome: &quot; + curso.getNome());</span>
+<span class="fc" id="L14">            System.out.println(&quot;Professor: &quot; + curso.getProfessor());</span>
+<span class="fc" id="L15">            System.out.println(&quot;Valor: &quot; + curso.getValor());</span>
 
             // Simulação de processamento
-<span class="nc" id="L18">            verificarCurso(curso);</span>
+<span class="fc" id="L18">            verificarCurso(curso);</span>
 
-<span class="nc" id="L20">            System.out.println(&quot;Curso de Graduação processado com sucesso!&quot;);</span>
-<span class="nc" id="L21">            return true;</span>
+<span class="fc" id="L20">            System.out.println(&quot;Curso de Graduação processado com sucesso!&quot;);</span>
+<span class="fc" id="L21">            return true;</span>
 
 <span class="nc" id="L23">        } catch (Exception e) {</span>
 <span class="nc" id="L24">            System.out.println(&quot;Erro ao processar curso: &quot; + e.getMessage());</span>
@@ -27,9 +27,9 @@ import org.springframework.stereotype.Service;
     }
 
     private void verificarCurso(Curso curso) {
-<span class="nc" id="L30">        System.out.println(&quot;Verificando informações do curso...&quot;);</span>
-<span class="nc" id="L31">        System.out.println(&quot;Descrição: &quot; + curso.getDescricao());</span>
-<span class="nc" id="L32">        System.out.println(&quot;Curso verificado!&quot;);</span>
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L30">        System.out.println(&quot;Verificando informações do curso...&quot;);</span>
+<span class="fc" id="L31">        System.out.println(&quot;Descrição: &quot; + curso.getDescricao());</span>
+<span class="fc" id="L32">        System.out.println(&quot;Curso verificado!&quot;);</span>
+<span class="fc" id="L33">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.15.202606040825</span></div></body></html>

@@ -27,15 +27,15 @@ import java.util.Optional;
 
     @GetMapping
     public ResponseEntity&lt;List&lt;Curso&gt;&gt; listar() {
-<span class="nc" id="L30">        List&lt;Curso&gt; cursos = cursoService.listarTodos();</span>
-<span class="nc" id="L31">        return ResponseEntity.ok(cursos);</span>
+<span class="fc" id="L30">        List&lt;Curso&gt; cursos = cursoService.listarTodos();</span>
+<span class="fc" id="L31">        return ResponseEntity.ok(cursos);</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)
     public ResponseEntity&lt;Curso&gt; obter(@PathVariable Long id) {
 <span class="fc" id="L36">        Optional&lt;Curso&gt; curso = cursoService.obterPorId(id);</span>
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        if (curso.isPresent()) {</span>
-<span class="nc" id="L38">            return ResponseEntity.ok(curso.get());</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (curso.isPresent()) {</span>
+<span class="fc" id="L38">            return ResponseEntity.ok(curso.get());</span>
         }
 <span class="fc" id="L40">        return ResponseEntity.notFound().build();</span>
     }
@@ -51,12 +51,12 @@ import java.util.Optional;
 
     @PostMapping(&quot;/{id}/processar&quot;)
     public ResponseEntity&lt;RespostaCursoDto&gt; processar(@PathVariable Long id) {
-<span class="nc" id="L54">        boolean sucesso = cursoService.processar(id);</span>
-<span class="nc" id="L55">        RespostaCursoDto resposta = new RespostaCursoDto(</span>
-<span class="nc" id="L56">                sucesso,</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">                sucesso ? &quot;Curso processado com sucesso&quot; : &quot;Erro ao processar curso&quot;</span>
+<span class="fc" id="L54">        boolean sucesso = cursoService.processar(id);</span>
+<span class="fc" id="L55">        RespostaCursoDto resposta = new RespostaCursoDto(</span>
+<span class="fc" id="L56">                sucesso,</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">                sucesso ? &quot;Curso processado com sucesso&quot; : &quot;Erro ao processar curso&quot;</span>
         );
-<span class="nc" id="L59">        return ResponseEntity.ok(resposta);</span>
+<span class="fc" id="L59">        return ResponseEntity.ok(resposta);</span>
     }
 
 }

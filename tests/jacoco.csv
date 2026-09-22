@@ -1,11 +1,11 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-,br.insper.simulado.processor,ProcessadorGraduacao,46,3,0,0,14,1,2,1,2,1
+,br.insper.simulado.processor,ProcessadorGraduacao,8,41,0,0,3,12,0,3,0,3
 ,br.insper.simulado.processor,CursoFactory,31,0,6,0,8,0,5,0,2,0
 ,br.insper.simulado.processor,ProcessadorMba,46,3,0,0,14,1,2,1,2,1
 ,br.insper.simulado.processor,ProcessadorPosGraduacao,46,3,0,0,14,1,2,1,2,1
 ,br.insper.simulado.service,CursoService,0,116,0,8,0,30,0,13,0,9
 ,br.insper.simulado,SimuladoApplication,5,3,0,0,2,1,1,1,1,1
-,br.insper.simulado.controller,CursoController,31,37,3,3,8,10,4,5,2,4
+,br.insper.simulado.controller,CursoController,1,67,1,5,0,18,1,8,0,6
 ,br.insper.simulado.entity,Curso,7,36,1,1,2,9,2,2,1,2
 ,br.insper.simulado.entity,TipoCurso,0,21,0,0,0,4,0,1,0,1
 ,br.insper.simulado.exception,ValidacaoCursoException,0,4,0,0,0,2,0,1,0,1
