@@ -53,7 +53,7 @@ public class CursoControllerTests {
         dto.setNome("Engenharia de Software");
         dto.setTipo(TipoCurso.GRADUACAO);
         dto.setValor(1000.0);
-        dto.setDescricao("Curso de graduação em Engenharia de Software");
+        dto.setDescricao("Curso de Graduação em Engenharia de Software");
         dto.setProfessor("Fulano de Tal");
 
         // chamada
