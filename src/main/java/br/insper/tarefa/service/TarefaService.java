@@ -53,7 +53,13 @@ public class TarefaService implements TarefaObservable {
         if (tarefaOpt.isPresent()) {
             Tarefa tarefa = tarefaOpt.get();
             tarefa.setDeletado(true);
+            tarefa.setDataDelecao(java.time.LocalDateTime.now());
             tarefaRepository.save(tarefa);
+            if (observers != null) {
+                for (TarefaObserver observer : observers) {
+                    observer.deletar(tarefa);
+                }
+            }
             return true;
         }
         return false;
