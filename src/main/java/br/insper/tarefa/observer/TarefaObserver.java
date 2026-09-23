@@ -4,5 +4,5 @@ import br.insper.tarefa.entity.Tarefa;
 
 public interface TarefaObserver {
     void criar(Tarefa tarefa);
-
+    default void deletar(Tarefa tarefa){};
 }

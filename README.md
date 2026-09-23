@@ -31,3 +31,12 @@ O uso de LLMs não é permitido, especialmente em ferramentas como Claude Code e
 Comunicação é proibida
 Pode ouvir música com fone, em um volume baixo
 Utilize o Postgres como base de dados
+
+
+
+Criar entidade e repository de auditoria (timestamp + tipo da operação).
+Fazer o observer de auditoria persistir no banco, e não só logar.
+Alterar a interface do observer e do observable para carregar o tipo da operação.
+Notificar os observers também no deletar.
+Garantir que o alerta de prioridade ALTA só dispare na criação.
+(Recomendado) Fazer a busca por id respeitar o soft delete e preencher a data de deleção.
