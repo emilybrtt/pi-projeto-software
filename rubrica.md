@@ -2,23 +2,23 @@ Exercício - 14/09/2026
 
 Implemente a seguinte API em Java com o Spring Boot:
 
-Aplicação de cursos online
+Aplicação de tarefas online
 
 A aplicação deve conter as seguintes rotas:
 
-GET /cursos
+GET /tarefas
 
-Lista todos os cursos. Não devem ser mostrados cursos deletados.
+Lista todos os tarefas. Não devem ser mostrados tarefas deletados.
 
-Incluir um filtro pelo nome do curso. O filtro deve ser do tipo startsWith, isto é, devem ser retornados todos os cursos cujo nome se inicia com a string enviada no filtro.
+Incluir um filtro pelo nome do tarefa. O filtro deve ser do tipo startsWith, isto é, devem ser retornados todos os tarefas cujo nome se inicia com a string enviada no filtro.
 
-POST /cursos
+POST /tarefas
 
-Cria um curso no banco de dados. (Podem pensar nos atributos que a classe curso deve ter.)
+Cria um tarefa no banco de dados. (Podem pensar nos atributos que a classe tarefa deve ter.)
 
-DELETE /cursos/{id}
+DELETE /tarefas/{id}
 
-Deleta um curso selecionado. A deleção do curso deve ser apenas lógica.
+Deleta um tarefa selecionado. A deleção do tarefa deve ser apenas lógica.
 
 Requisitos
 
