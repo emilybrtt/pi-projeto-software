@@ -1,4 +1,4 @@
-package br.insper.simulado.dto;
+package br.insper.tarefa.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RespostaCursoDto {
+public class RespostaTarefaDto {
     private Boolean sucesso;
     private String mensagem;
 }
